@@ -5,6 +5,38 @@ fn print_sum(a:i32,b:i32) -> i32 {
     a + b // 返回值这行不加分号
 }
 
+#[derive(Debug)]
+struct People {
+    name: String,
+    id: i32,
+    address: String,
+}
+
+impl People {
+    // 关联函数 实现了一个类似于 c++ 的静态函数的功能，不依赖于某个实例，通常可以用来创建这个类型的对象
+    fn make_people(name: String,id: i32) -> People {
+        People {
+            name,
+            id,
+            address: String::from("beijing"),
+        }
+    }
+
+    fn rename(&mut self, name: String){
+        self.name = name;
+    }
+}
+
+// 这是一个全局的函数，不绑定特定的域
+fn make_people(name: String, id: i32) -> People {
+    People {
+        name,
+        id,
+        address:String::from("tianjing"),
+    }
+}
+
+
 fn main() {
     //打印字符串
     println!("Hello, world!");
@@ -110,6 +142,22 @@ fn main() {
     // first_word(str6);
     second_word(str6);
 
+    let man : People = People {
+        name: String::from("xiaoming"),
+        id: 123,
+        address: String::from("beijing"),
+    };
+
+
+    println!("{:#?}", man);
+
+    let mut women : People = People::make_people(String::from("xiaohong"), 32);
+    println!("{:#?}", women);
+    women.rename(String::from("xiaoli"));
+    println!("{:#?}", women);
+
+    let mut child : People = make_people(String::from("xiaohai"), 6);
+    println!("{:#?}", child);
 
 
 }
