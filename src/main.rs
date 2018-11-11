@@ -36,6 +36,36 @@ fn make_people(name: String, id: i32) -> People {
     }
 }
 
+#[derive(Debug)]
+enum IPversion {
+    v4,
+    v6,
+}
+
+#[derive(Debug)]
+enum Color {
+    Red(String),
+    Green(String),
+    Blue(String),
+}
+
+#[derive(Debug)]
+struct IPv4 {
+    address:(i32,i32,i32,i32),
+}
+
+#[derive(Debug)]
+struct IPv6 {
+    address: String,
+}
+
+//枚举变量可以绑定不同类型的值
+#[derive(Debug)]
+enum IPVersion {
+    IPv4(IPv4),
+    IPv6(IPv6),
+}
+
 
 fn main() {
     //打印字符串
@@ -159,7 +189,54 @@ fn main() {
     let mut child : People = make_people(String::from("xiaohai"), 6);
     println!("{:#?}", child);
 
+    let version : IPversion = IPversion::v6;
+    MatchIPVersion(version);
 
+    let Redcolor : Color = Color::Red(String::from("红色"));
+
+    let color = match Redcolor {
+        Color::Red(str) => println!("{}", str),
+        Color::Blue(str) => (),
+        Color::Green(str) => (),
+    };
+
+    println!("{:?}", color);
+
+    //同一个变量可以重新绑定
+    let IP: IPVersion = IPVersion::IPv4(IPv4 {address:(127,0,0,1)});
+    let IP: IPVersion = IPVersion::IPv6(IPv6 {address:String::from("::127:0:0:1")});
+
+    // 解绑变量，可以直接使用
+    // 匹配是穷举的，没有穷举的变量，使用_ 统配符 匹配
+    match IP {
+        IPVersion::IPv4(ip) => println!("{}.{}.{}.{}", ip.address.1,ip.address.2,ip.address.3,ip.address.0),
+        _ => println!("通配符"),
+    }
+
+    let num: Option<i32> = Option::Some(5);
+
+    match num {
+        Some(expr) => println!("{}", expr),
+        None => (),
+    }
+
+    let res = match num {
+        Some(expr) => Some(expr + 1),
+        None => None,
+    };
+
+    match res {
+        Some(expr) => println!("{}", expr),
+        None => (),
+    }
+
+
+    // if let 语法糖
+    if let Some(6) = res {
+        println!("{:?}", res)
+    } else {
+        println!("else  branch")
+    }
 }
 
 
@@ -198,3 +275,10 @@ fn second_word(s:&str) -> &str{
 //     let s = String::from("google");
 //     &s
 // }
+
+fn MatchIPVersion(Version: IPversion){
+    match Version {
+        IPversion::v4 => println!("IPversion v4"),
+        IPversion::v6 => println!("IPversion v6"),
+    }
+}
