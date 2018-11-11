@@ -1,3 +1,7 @@
+mod lib; // 导入其他模块的代码
+
+use lib::*; //使用 lib 模块中的模块  不需要带 lib 名
+
 fn print_sum(a:i32,b:i32) -> i32 {
     println!("{}", a);
     println!("{}", b);
@@ -237,6 +241,8 @@ fn main() {
     } else {
         println!("else  branch")
     }
+
+    Network::PrintNetVersion();
 }
 
 
